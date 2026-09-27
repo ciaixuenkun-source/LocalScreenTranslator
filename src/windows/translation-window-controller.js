@@ -20,7 +20,9 @@ const FRIENDLY_ERRORS = {
   "empty-input": "请输入需要翻译的文字。",
   "translation-cancelled": "翻译已取消。",
   "empty-response": "翻译服务没有返回有效译文，请稍后重试。",
-  "local-model-unavailable": "本地翻译模型不可用",
+  "local-model-not-configured": "本地翻译尚未配置。请设置 TRANSLATOR_LLAMA_RUNTIME_DIR 和 TRANSLATOR_QWEN_MODEL_DIR。",
+  "local-runtime-unavailable": "未找到 llama-server.exe，请检查 TRANSLATOR_LLAMA_RUNTIME_DIR。",
+  "local-model-unavailable": "未找到本地 Qwen 模型，请检查 TRANSLATOR_QWEN_MODEL_DIR。",
   "local-model-start-failed": "本地翻译模型启动失败",
   "local-request-failed": "本地翻译暂时失败"
 };

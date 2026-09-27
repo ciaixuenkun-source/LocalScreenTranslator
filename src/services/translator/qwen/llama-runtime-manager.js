@@ -56,10 +56,31 @@ class LlamaRuntimeManager {
   }
 
   availability() {
-    const missing = [];
-    if (!fs.existsSync(this.config.serverExecutable)) missing.push(this.config.serverExecutable);
-    if (!fs.existsSync(this.config.modelPath)) missing.push(this.config.modelPath);
-    return { available: missing.length === 0, missing };
+    if (!this.config.runtimeDirectory || !this.config.modelDirectory) {
+      return {
+        available: false,
+        reason: "not-configured",
+        missing: [
+          !this.config.runtimeDirectory && "TRANSLATOR_LLAMA_RUNTIME_DIR",
+          !this.config.modelDirectory && "TRANSLATOR_QWEN_MODEL_DIR"
+        ].filter(Boolean)
+      };
+    }
+    if (!fs.existsSync(this.config.serverExecutable)) {
+      return {
+        available: false,
+        reason: "runtime-missing",
+        missing: [this.config.serverExecutable]
+      };
+    }
+    if (!fs.existsSync(this.config.modelPath)) {
+      return {
+        available: false,
+        reason: "model-missing",
+        missing: [this.config.modelPath]
+      };
+    }
+    return { available: true, reason: null, missing: [] };
   }
 
   isReady() {
@@ -106,9 +127,22 @@ class LlamaRuntimeManager {
     const availability = this.availability();
     if (!availability.available) {
       console.error("[qwen] local runtime unavailable", availability.missing);
-      throw new TranslatorError("本地翻译模型不可用", {
-        code: "local-model-unavailable"
-      });
+      if (availability.reason === "not-configured") {
+        throw new TranslatorError(
+          "本地翻译尚未配置。请设置 TRANSLATOR_LLAMA_RUNTIME_DIR 和 TRANSLATOR_QWEN_MODEL_DIR。",
+          { code: "local-model-not-configured" }
+        );
+      }
+      if (availability.reason === "runtime-missing") {
+        throw new TranslatorError(
+          "未找到 llama-server.exe，请检查 TRANSLATOR_LLAMA_RUNTIME_DIR。",
+          { code: "local-runtime-unavailable" }
+        );
+      }
+      throw new TranslatorError(
+        "未找到本地 Qwen 模型，请检查 TRANSLATOR_QWEN_MODEL_DIR。",
+        { code: "local-model-unavailable" }
+      );
     }
 
     onStatus?.({ stage: "starting" });

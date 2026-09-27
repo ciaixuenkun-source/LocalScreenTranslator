@@ -1,5 +1,8 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
 const {
   createStreamingRestorer,
   missingProtectedExpressions,
@@ -12,6 +15,9 @@ const {
 const {
   LlamaRuntimeManager
 } = require("../src/services/translator/qwen/llama-runtime-manager");
+const {
+  createLocalQwenConfig
+} = require("../src/services/translator/qwen/local-qwen-config");
 const {
   QwenLocalProvider
 } = require("../src/services/translator/providers/qwen-local-provider");
@@ -218,12 +224,67 @@ test("concurrent users share one llama-server startup", async () => {
   manager.ready = false;
 });
 
-test("missing local files fail clearly without starting a process", async () => {
+test("empty local paths do not fall back to developer directories", () => {
+  const config = createLocalQwenConfig({
+    runtimeDirectory: "",
+    modelDirectory: ""
+  });
+  assert.equal(config.runtimeDirectory, "");
+  assert.equal(config.serverExecutable, "");
+  assert.equal(config.modelDirectory, "");
+  assert.equal(config.modelPath, "");
+});
+
+test("unconfigured local translation reports the required environment variables", async () => {
+  const manager = new LlamaRuntimeManager({
+    config: createLocalQwenConfig({
+      runtimeDirectory: "",
+      modelDirectory: ""
+    })
+  });
+  await assert.rejects(manager.ensureReady(), (error) => {
+    assert.equal(error.code, "local-model-not-configured");
+    assert.match(error.message, /TRANSLATOR_LLAMA_RUNTIME_DIR/);
+    assert.match(error.message, /TRANSLATOR_QWEN_MODEL_DIR/);
+    return true;
+  });
+});
+
+test("missing llama runtime and model files report distinct errors", async (context) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "translator-qwen-config-"));
+  context.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const runtimeDirectory = path.join(root, "runtime");
+  const modelDirectory = path.join(root, "model");
+  fs.mkdirSync(runtimeDirectory);
+  fs.mkdirSync(modelDirectory);
+
+  const runtimeMissing = new LlamaRuntimeManager({
+    config: createLocalQwenConfig({ runtimeDirectory, modelDirectory })
+  });
+  await assert.rejects(runtimeMissing.ensureReady(), (error) => {
+    assert.equal(error.code, "local-runtime-unavailable");
+    assert.match(error.message, /llama-server\.exe/);
+    return true;
+  });
+
+  fs.writeFileSync(path.join(runtimeDirectory, "llama-server.exe"), "test");
+  const modelMissing = new LlamaRuntimeManager({
+    config: createLocalQwenConfig({ runtimeDirectory, modelDirectory })
+  });
+  await assert.rejects(modelMissing.ensureReady(), (error) => {
+    assert.equal(error.code, "local-model-unavailable");
+    assert.match(error.message, /TRANSLATOR_QWEN_MODEL_DIR/);
+    return true;
+  });
+});
+
+test("missing local files fail without starting a process", async () => {
   let spawnCalls = 0;
   const manager = new LlamaRuntimeManager({
     config: {
       runtimeDirectory: "C:\\definitely-missing-translator-runtime",
       serverExecutable: "C:\\definitely-missing-translator-runtime\\llama-server.exe",
+      modelDirectory: "C:\\definitely-missing-translator-model",
       modelPath: "C:\\definitely-missing-translator-model\\model.gguf",
       host: "127.0.0.1",
       port: 18473,
@@ -236,7 +297,7 @@ test("missing local files fail clearly without starting a process", async () => 
     }
   });
   await assert.rejects(manager.ensureReady(), (error) => {
-    assert.equal(error.code, "local-model-unavailable");
+    assert.equal(error.code, "local-runtime-unavailable");
     return true;
   });
   assert.equal(spawnCalls, 0);

@@ -1,23 +1,38 @@
 const path = require("path");
 
-const RUNTIME_DIR = process.env.TRANSLATOR_LLAMA_RUNTIME_DIR ||
-  "D:\\TranslatorRuntimes\\llama.cpp\\b11146-cuda-12.4";
-const MODEL_DIR = process.env.TRANSLATOR_QWEN_MODEL_DIR ||
-  "D:\\TranslatorModels\\Qwen3-4B-Instruct-2507";
+function normalizeDirectory(value) {
+  return typeof value === "string" ? value.trim() : "";
+}
 
-const LOCAL_QWEN_CONFIG = Object.freeze({
-  runtimeDirectory: RUNTIME_DIR,
-  serverExecutable: path.join(RUNTIME_DIR, "llama-server.exe"),
-  modelDirectory: MODEL_DIR,
-  modelPath: path.join(MODEL_DIR, "Qwen3-4B-Instruct-2507-Q4_K_M.gguf"),
-  modelAlias: "Qwen3-4B-Instruct-2507-Q4_K_M",
-  host: "127.0.0.1",
-  port: 18473,
-  contextSize: 4096,
-  idleTimeoutMs: 5 * 60 * 1000,
-  startupTimeoutMs: 180000,
-  requestTimeoutMs: 120000
-});
+function createLocalQwenConfig({
+  runtimeDirectory = process.env.TRANSLATOR_LLAMA_RUNTIME_DIR,
+  modelDirectory = process.env.TRANSLATOR_QWEN_MODEL_DIR
+} = {}) {
+  const normalizedRuntimeDirectory = normalizeDirectory(runtimeDirectory);
+  const normalizedModelDirectory = normalizeDirectory(modelDirectory);
+  return Object.freeze({
+    runtimeDirectory: normalizedRuntimeDirectory,
+    serverExecutable: normalizedRuntimeDirectory
+      ? path.join(normalizedRuntimeDirectory, "llama-server.exe")
+      : "",
+    modelDirectory: normalizedModelDirectory,
+    modelPath: normalizedModelDirectory
+      ? path.join(
+        normalizedModelDirectory,
+        "Qwen3-4B-Instruct-2507-Q4_K_M.gguf"
+      )
+      : "",
+    modelAlias: "Qwen3-4B-Instruct-2507-Q4_K_M",
+    host: "127.0.0.1",
+    port: 18473,
+    contextSize: 4096,
+    idleTimeoutMs: 5 * 60 * 1000,
+    startupTimeoutMs: 180000,
+    requestTimeoutMs: 120000
+  });
+}
+
+const LOCAL_QWEN_CONFIG = createLocalQwenConfig();
 
 function serverArguments(config = LOCAL_QWEN_CONFIG) {
   return [
@@ -39,4 +54,4 @@ function serverArguments(config = LOCAL_QWEN_CONFIG) {
   ];
 }
 
-module.exports = { LOCAL_QWEN_CONFIG, serverArguments };
+module.exports = { createLocalQwenConfig, LOCAL_QWEN_CONFIG, serverArguments };
