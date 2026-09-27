@@ -10,11 +10,15 @@
     "icon:generate": "node scripts/generate-app-icons.js",
     "shortcut:desktop": "powershell -ExecutionPolicy Bypass -File ./scripts/create-desktop-shortcut.ps1",
     "shortcut:start-menu": "powershell -ExecutionPolicy Bypass -File ./scripts/create-start-menu-shortcut.ps1",
+    "dist:win:nsis": "electron-builder --win nsis --x64",
+    "dist:win:portable": "electron-builder --win portable --x64",
+    "pack:win": "electron-builder --win --x64 --dir",
     "start": "electron .",
     "test": "node --test test/**/*.test.js"
   },
   "devDependencies": {
-    "electron": "44.4.5"
+    "electron": "44.4.5",
+    "electron-builder": "26.17.0"
   },
   "dependencies": {
     "@tesseract.js-data/chi_sim": "^1.0.0",
@@ -25,8 +29,40 @@
   "build": {
     "appId": "com.translator.desktop",
     "productName": "Translator",
+    "directories": {
+      "output": "dist"
+    },
+    "electronDist": "node_modules/electron/dist",
+    "files": [
+      "src/**/*",
+      "!src/renderer/assets/floating-bomb.svg",
+      "!src/renderer/assets/translator-edge-doll.png",
+      "!src/services/translator/providers/free-placeholder-provider.js",
+      "package.json"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "**/node_modules/sharp/**/*",
+      "**/node_modules/@img/**/*",
+      "**/node_modules/tesseract.js/**/*",
+      "**/node_modules/tesseract.js-core/**/*",
+      "**/node_modules/@tesseract.js-data/eng/4.0.0_best_int/**/*",
+      "**/node_modules/@tesseract.js-data/chi_sim/4.0.0_best_int/**/*"
+    ],
     "win": {
       "icon": "src/assets/icons/app-icon.ico"
+    },
+    "portable": {
+      "artifactName": "LocalScreenTranslator-${version}-portable.${ext}"
+    },
+    "nsis": {
+      "artifactName": "LocalScreenTranslator-${version}-setup.${ext}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "Translator",
+      "uninstallDisplayName": "Translator"
     }
   }
 }
