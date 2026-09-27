@@ -21,6 +21,24 @@ Translator 不是自研大语言模型。本项目使用现有开源模型和第
 - **共享 llama-server**：文本翻译和区域翻译复用同一个本地服务。
 - **自动释放资源**：连续 5 分钟没有本地翻译请求时关闭 llama-server；退出 Translator 时立即清理该进程。
 
+## 界面预览
+
+悬浮球与展开菜单：快速进入区域翻译、文本翻译和设置。
+
+![悬浮球与展开菜单](docs/screenshots/floating-ball.png)
+
+文本翻译：复制文字后直接查看本地或在线 AI 译文。
+
+![文本翻译](docs/screenshots/text-translation.png)
+
+区域翻译：框选屏幕内容后查看 OCR 原文和中文译文。
+
+![区域翻译](docs/screenshots/region-translation.png)
+
+设置页面：管理快捷键、本地翻译偏好和在线 AI 配置。
+
+![设置页面](docs/screenshots/settings.png)
+
 ## 使用方式
 
 ### 文本翻译
