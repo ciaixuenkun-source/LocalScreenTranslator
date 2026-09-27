@@ -1,7 +1,7 @@
 {
   "name": "translator-floating-shell",
   "version": "0.1.0",
-  "description": "Windows desktop translator shell with a floating entry point.",
+  "description": "LocalScreenTranslator is a Windows Electron desktop tool for local OCR, local Qwen translation, and optional OpenAI-compatible AI translation.",
   "main": "src/main.js",
   "private": true,
   "scripts": {

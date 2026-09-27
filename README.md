@@ -1,6 +1,6 @@
-# Translator
+# LocalScreenTranslator
 
-Translator 是一款面向 Windows 的 Electron 桌面翻译工具，主要服务于科研论文阅读、技术资料查阅和日常翻译。它将本地 OCR、本地大语言模型翻译和可选的在线 AI 精译整合到轻量的悬浮球工作流中。
+`LocalScreenTranslator` 是 GitHub 项目名称，当前应用内显示名称仍为 `Translator`。它是一款面向 Windows 的 Electron 桌面翻译工具，主要服务于科研论文阅读、技术资料查阅和日常翻译，并将本地 OCR、本地大语言模型翻译和可选的在线 AI 精译整合到轻量的悬浮球工作流中。
 
 Translator 不是自研大语言模型。本项目使用现有开源模型和第三方组件，并在应用层实现窗口交互、翻译流程、科研表达保护、完整性检查和本地模型生命周期管理。
 
@@ -9,8 +9,8 @@ Translator 不是自研大语言模型。本项目使用现有开源模型和第
 - **文本翻译**：默认快捷键 `Alt+1`，读取剪贴板文字并直接翻译。
 - **区域翻译**：默认快捷键 `Alt+2`，框选屏幕区域后执行本地 OCR 和翻译。
 - **本地 OCR**：使用 Tesseract.js 识别英文、简体中文及中英文混排内容。
-- **本地 Qwen 翻译**：界面中的“免费翻译”指本机运行的 Qwen3-4B-Instruct-2507 GGUF，不是在线免费 API，也不会调用 DeepSeek。
-- **AI 精译**：可选用 DeepSeek/OpenAI-compatible API，适合需要进一步复核的内容。
+- **本地 Qwen 翻译**：界面中的“免费翻译”指本机运行的 Qwen3-4B-Instruct-2507 GGUF，不是在线免费 API，也不会调用在线 AI 服务。
+- **AI 精译**：可配置 OpenAI-compatible API，适合需要进一步复核的内容。
 - **科研翻译规则**：针对论文和技术资料使用简洁的科研翻译提示词。
 - **科学表达保护**：尽量保护数字、单位、化学式、科研缩写、样品编号和引用编号。
 - **完整性检查**：对可能遗漏的数字、单位、化学式、否定或比较关系给出提示，不自动篡改译文。
@@ -131,9 +131,9 @@ npm start
 
 ### 6. 配置 AI 精译（可选）
 
-DeepSeek/OpenAI-compatible API 仅用于用户主动选择的“AI 精译”。API Base URL、模型和 API Key 可在 Translator 设置页配置。
+可配置的 OpenAI-compatible API 仅用于用户主动选择的“AI 精译”。API Base URL、模型和 API Key 可在 Translator 设置页配置。
 
-本地 Qwen 翻译不需要 DeepSeek API Key。API Key 使用 Electron `safeStorage` 保存在本机，不应写入源码或提交到 GitHub。
+本地 Qwen 翻译不需要在线服务 API Key。在线 AI 的 API Key 使用 Electron `safeStorage` 保存在本机，不应写入源码或提交到 GitHub。
 
 ## 测试
 
@@ -158,7 +158,7 @@ npm test
 - Tesseract OCR 和 Qwen 本地翻译均在用户本机运行。
 - 区域截图只在当前截图/OCR session 内以 Electron `nativeImage`、内存 Buffer 和 Data URL 使用。
 - Translator 不会把区域截图写入磁盘翻译历史。关闭区域结果窗口、开始新的区域任务或退出 Translator 后，程序会清除相关 session 和预览数据引用，随后由 Electron/JavaScript 运行时回收内存。
-- 使用“AI 精译”时，当前待翻译文本会发送到用户所配置的 DeepSeek/OpenAI-compatible 在线服务，请同时遵守对应服务的隐私政策和使用条款。
+- 只有用户主动使用“AI 精译”时，当前待翻译文本才会发送到用户配置的兼容在线 AI 服务，请同时遵守对应服务的隐私政策和使用条款。
 - GitHub 仓库不包含 API Key、credentials、本地 Qwen 模型、llama.cpp runtime 或用户运行配置。
 
 ## 视觉素材

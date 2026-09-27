@@ -1,8 +1,8 @@
 # Third-Party Notices
 
-Translator 使用多个第三方开源项目、模型和数据资源。根目录中的 MIT License 仅适用于 Translator 自身有权许可的代码与素材；第三方组件仍分别遵守其上游许可证、版权声明和使用条款。
+LocalScreenTranslator 使用多个第三方开源项目、模型和数据资源。根目录中的 MIT License 仅适用于项目自身有权许可的代码与素材；第三方组件仍分别遵守其上游许可证、版权声明和使用条款。
 
-本 GitHub 仓库不包含 Qwen GGUF 模型文件、llama.cpp runtime 或 DeepSeek 在线服务本身。
+本 GitHub 仓库不包含 Qwen GGUF 模型文件、llama.cpp runtime 或任何在线 AI 服务本身。
 
 ## Electron
 
