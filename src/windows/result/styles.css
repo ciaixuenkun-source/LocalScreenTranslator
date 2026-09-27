@@ -1,0 +1,141 @@
+:root {
+  --cream: #fff8ea;
+  --paper: #fffdf8;
+  --coral: #d96957;
+  --brown: #5b3a31;
+  --brown-soft: #7a5145;
+  --gold: #f3c978;
+  --green: #7fa66a;
+  --border: #a97763;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: transparent;
+  color: var(--brown);
+  font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+}
+
+button {
+  font: inherit;
+  letter-spacing: 0;
+}
+
+.result-card {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+  margin: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--cream);
+  box-shadow:
+    0 16px 38px rgba(86, 47, 37, 0.24),
+    inset 0 0 0 4px rgba(243, 201, 120, 0.24);
+}
+
+.dragbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 54px;
+  padding: 8px 10px 8px 18px;
+  border-bottom: 1px solid rgba(122, 81, 69, 0.2);
+  background: #fff3da;
+  -webkit-app-region: drag;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.title img {
+  width: 22px;
+  height: 22px;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  -webkit-app-region: no-drag;
+}
+
+.actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--brown-soft);
+  cursor: pointer;
+}
+
+#pinButton {
+  gap: 5px;
+  padding: 0 9px;
+  font-size: 13px;
+}
+
+#pinButton svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#pinButton:hover,
+.icon-button:hover {
+  background: rgba(217, 105, 87, 0.12);
+  color: #a9473e;
+}
+
+#pinButton[aria-pressed="true"] {
+  background: #f7dfac;
+  color: #7b4b2e;
+}
+
+.icon-button {
+  width: 34px;
+  padding: 0;
+  font-size: 21px;
+}
+
+.translated-text {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  overflow: auto;
+  padding: 24px 28px 30px;
+  background: var(--paper);
+  color: #3f2923;
+  font-size: 16px;
+  line-height: 1.85;
+  letter-spacing: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: text;
+  cursor: text;
+}
+
+.translated-text::selection {
+  background: rgba(243, 201, 120, 0.58);
+}

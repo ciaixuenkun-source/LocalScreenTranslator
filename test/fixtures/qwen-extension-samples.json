@@ -1,0 +1,27 @@
+[
+  {
+    "id": "extended-abstract",
+    "category": "扩展测试 / 论文摘要",
+    "text": "Bentonite-supported calcium sulfate composites were prepared to investigate heterogeneous nucleation during gypsum crystallization. The modified surface increased the density of high-affinity sites and improved adsorption capacity without reducing the specific surface area."
+  },
+  {
+    "id": "extended-deodorization",
+    "category": "扩展测试 / 吸附除臭",
+    "text": "The porous deodorization material removed NH3 through physical adsorption, acid-base interaction, and chemisorption, while its capacity remained above 28.4 mg/g after three regeneration cycles."
+  },
+  {
+    "id": "extended-gypsum-bentonite",
+    "category": "扩展测试 / 石膏与膨润土",
+    "text": "The cation exchange capacity of bentonite affected solute transport, whereas CaSO4·2H2O precipitation was controlled by heterogeneous nucleation on the clay surface."
+  },
+  {
+    "id": "extended-antimicrobial",
+    "category": "扩展测试 / 杀菌与微生物",
+    "text": "H2O2 treatment enhanced bacterial inactivation, but excessive oxidation damaged surface functional groups that were important for clay-mediated microbial remediation."
+  },
+  {
+    "id": "extended-mixed-language",
+    "category": "扩展测试 / 中英文混排",
+    "text": "样品A exhibited a larger electrical double layer and higher BET specific surface area than 样品B, but 样品B showed stronger adsorption of NH4+ at pH 6."
+  }
+]

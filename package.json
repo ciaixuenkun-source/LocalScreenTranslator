@@ -1,0 +1,46 @@
+{
+  "name": "translator-floating-shell",
+  "version": "0.1.0",
+  "description": "Windows desktop translator shell with a floating entry point.",
+  "main": "src/main.js",
+  "private": true,
+  "scripts": {
+    "postinstall": "patch-package",
+    "setup": "powershell -ExecutionPolicy Bypass -File ./scripts/setup.ps1",
+    "model:bergamot": "node scripts/download-bergamot-model.js",
+    "model:opus": "powershell -ExecutionPolicy Bypass -File ./scripts/download-opus-model.ps1",
+    "experiment:bergamot": "node scripts/run-bergamot-experiment.js",
+    "experiment:compare": "electron scripts/run-translation-comparison.js",
+    "experiment:opus": "node scripts/run-opus-experiment.js",
+    "experiment:opus-electron": "electron scripts/probe-opus-electron.js",
+    "experiment:qwen": "node scripts/run-qwen-experiment.js",
+    "experiment:qwen-optimize": "node scripts/run-qwen-optimization.js",
+    "experiment:qwen-optimize-configs": "node scripts/run-qwen-optimization.js --compare-configs",
+    "smoke:qwen-production": "node scripts/smoke-test-qwen-production.js",
+    "icon:generate": "node scripts/generate-app-icons.js",
+    "shortcut:desktop": "powershell -ExecutionPolicy Bypass -File ./scripts/create-desktop-shortcut.ps1",
+    "shortcut:start-menu": "powershell -ExecutionPolicy Bypass -File ./scripts/create-start-menu-shortcut.ps1",
+    "report:local-candidates": "node scripts/generate-local-candidate-reports.js",
+    "start": "electron .",
+    "test": "node --test test/**/*.test.js"
+  },
+  "devDependencies": {
+    "electron": "^33.4.11",
+    "patch-package": "^8.0.1"
+  },
+  "dependencies": {
+    "@browsermt/bergamot-translator": "^0.4.9",
+    "@huggingface/transformers": "^4.3.0",
+    "@tesseract.js-data/chi_sim": "^1.0.0",
+    "@tesseract.js-data/eng": "^1.0.0",
+    "sharp": "^0.35.4",
+    "tesseract.js": "^7.0.0"
+  },
+  "build": {
+    "appId": "com.translator.desktop",
+    "productName": "Translator",
+    "win": {
+      "icon": "src/assets/icons/app-icon.ico"
+    }
+  }
+}

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Translator</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main id="app" class="shell edge-right collapsed" aria-label="翻译工具悬浮入口">
+      <section class="menu" aria-label="翻译功能">
+        <img
+          class="menu-tail"
+          src="./assets/tail-connector.svg"
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+        />
+        <img
+          class="menu-clover"
+          src="./assets/clover.svg"
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+        />
+        <button
+          class="menu-item"
+          type="button"
+          data-name="区域翻译"
+          data-action="areaTranslation"
+        >
+          <span class="icon">
+            <img src="./assets/icon-region.svg" alt="" aria-hidden="true" draggable="false" />
+          </span>
+          <span>区域翻译</span>
+        </button>
+        <button
+          class="menu-item"
+          type="button"
+          data-name="文本翻译"
+          data-action="textTranslation"
+        >
+          <span class="icon">
+            <img src="./assets/icon-text.svg" alt="" aria-hidden="true" draggable="false" />
+          </span>
+          <span>文本翻译</span>
+        </button>
+        <button
+          class="menu-item"
+          type="button"
+          data-name="设置"
+          data-action="settings"
+        >
+          <span class="icon">
+            <img src="./assets/icon-settings.svg" alt="" aria-hidden="true" draggable="false" />
+          </span>
+          <span>设置</span>
+        </button>
+      </section>
+
+      <button id="ball" class="ball" type="button" aria-label="展开翻译菜单">
+        <img
+          class="ball-art"
+          src="./assets/translator-mascot.png"
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+        />
+      </button>
+
+      <div class="edge-animation" aria-hidden="true">
+        <div class="animation-scene">
+          <img
+            class="animation-bag animation-bag-back"
+            src="./assets/translator-bag-back.png"
+            alt=""
+            draggable="false"
+          />
+          <div class="animation-doll-motion">
+            <img
+              id="animationDoll"
+              class="animation-doll"
+              src="./assets/translator-jump-doll.png"
+              alt=""
+              draggable="false"
+            />
+          </div>
+          <img
+            class="animation-bag animation-bag-front"
+            src="./assets/translator-bag-front.png"
+            alt=""
+            draggable="false"
+          />
+        </div>
+      </div>
+
+      <button id="edgeSensor" class="edge-sensor" type="button" aria-label="显示 Translator">
+        <span class="peek-anchor" aria-hidden="true">
+          <img
+            class="peek-doll"
+            src="./assets/translator-jump-doll.png"
+            alt=""
+            draggable="false"
+          />
+        </span>
+      </button>
+
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </main>
+    <script src="./renderer.js"></script>
+  </body>
+</html>

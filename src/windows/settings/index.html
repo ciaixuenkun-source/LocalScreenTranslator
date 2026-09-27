@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Translator 设置</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="window-shell">
+      <header class="titlebar">
+        <div class="title-group">
+          <img src="../../renderer/assets/clover.svg" alt="" draggable="false" />
+          <div>
+            <h1>设置</h1>
+            <p>翻译服务、快捷键与程序控制</p>
+          </div>
+        </div>
+        <div class="window-actions">
+          <button id="minimizeButton" type="button" aria-label="最小化" title="最小化">−</button>
+          <button id="closeButton" type="button" aria-label="关闭" title="关闭">×</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section aria-labelledby="translatorServiceTitle">
+          <div class="section-heading">
+            <div>
+              <h2 id="translatorServiceTitle">翻译服务</h2>
+              <p>选择默认模式并配置 AI 精译服务。</p>
+            </div>
+          </div>
+          <div class="service-form">
+            <div class="translation-preference">
+              <div>
+                <strong>默认使用 AI 精译</strong>
+                <span>关闭：默认使用免费翻译</span>
+                <span>开启：默认使用 AI 精译（DeepSeek API，可能产生费用）</span>
+              </div>
+              <label class="switch" title="默认使用 AI 精译">
+                <input id="defaultAiTranslation" type="checkbox" />
+                <span class="switch-track" aria-hidden="true"></span>
+              </label>
+            </div>
+            <div id="aiProviderFields" class="provider-fields">
+            <label class="form-field">
+              <span>AI 服务类型</span>
+              <select id="providerType" disabled>
+                <option value="openai-compatible">OpenAI Compatible / DeepSeek</option>
+              </select>
+            </label>
+            <label class="form-field">
+              <span>API 地址</span>
+              <input id="apiBaseUrl" type="url" autocomplete="url" spellcheck="false" />
+            </label>
+            <label class="form-field">
+              <span>API Key</span>
+              <input id="apiKey" type="password" autocomplete="new-password" spellcheck="false" />
+            </label>
+            <label class="form-field">
+              <span>模型</span>
+              <input id="modelName" type="text" autocomplete="off" spellcheck="false" />
+            </label>
+            </div>
+            <div class="service-actions">
+              <span id="serviceStatus" class="service-status" role="status" aria-live="polite"></span>
+              <button id="testService" class="secondary-button" type="button">测试连接</button>
+              <button id="saveService" class="primary-button" type="button">保存</button>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="hotkeyTitle">
+          <div class="section-heading">
+            <div>
+              <h2 id="hotkeyTitle">快捷键</h2>
+              <p>每个功能可以保留多个键盘快捷键。</p>
+            </div>
+            <button id="resetDefaults" class="secondary-button" type="button">恢复默认</button>
+          </div>
+          <div id="hotkeyList" class="hotkey-list"></div>
+        </section>
+
+        <section class="program-section" aria-labelledby="programTitle">
+          <div class="section-heading">
+            <div>
+              <h2 id="programTitle">程序</h2>
+              <p>关闭窗口不会退出 Translator。</p>
+            </div>
+          </div>
+          <div class="program-actions">
+            <button id="showBall" class="secondary-button" type="button">显示球球</button>
+            <button id="quitTranslator" class="danger-button" type="button">退出 Translator</button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="captureOverlay" class="capture-overlay" hidden>
+      <section class="capture-dialog" role="dialog" aria-modal="true" aria-labelledby="captureTitle">
+        <img src="../../renderer/assets/clover.svg" alt="" draggable="false" />
+        <h2 id="captureTitle">设置新绑定</h2>
+        <p>请按下新的快捷键</p>
+        <div id="capturedValue" class="captured-value">等待输入…</div>
+        <p id="captureError" class="capture-error" aria-live="polite"></p>
+        <div class="capture-actions">
+          <button id="cancelCapture" class="secondary-button" type="button">取消</button>
+          <button id="confirmCapture" class="primary-button" type="button" disabled>确认</button>
+        </div>
+      </section>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="./renderer.js"></script>
+  </body>
+</html>

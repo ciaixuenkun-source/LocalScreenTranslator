@@ -1,0 +1,59 @@
+# Dependencies and local experiment models
+node_modules/
+.local-models/
+
+# Local debug captures and temporary OCR output
+.tmp-region-debug/
+artifacts/ball-animation-check/
+artifacts/screenshots/
+artifacts/ocr-temp/
+artifacts/qwen-production-*.json
+
+# Local experiment reports and generated test artifacts
+/artifacts/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node and Electron caches
+.cache/
+.electron/
+.vite/
+.parcel-cache/
+.webpack/
+.nyc_output/
+coverage/
+*.tsbuildinfo
+
+# Generated build output
+dist/
+out/
+build/
+release/
+
+# Local environment and credentials
+.env
+.env.*
+/credentials.json
+/credentials.local.json
+/secrets.json
+/secrets.local.json
+/api-keys.json
+/api-keys.local.json
+/translator-credentials.bin
+/translator-config.local.json
+
+# Machine-specific launchers
+/Translator.lnk
+
+# Temporary files and operating-system metadata
+*.tmp
+*.temp
+*.download
+Thumbs.db
+.DS_Store

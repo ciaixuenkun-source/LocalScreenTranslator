@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>区域翻译</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="result-shell">
+      <header class="window-bar">
+        <span id="statusText">正在识别文字…</span>
+        <button id="closeButton" type="button" aria-label="关闭" title="关闭">×</button>
+      </header>
+
+      <details class="capture-details">
+        <summary>查看截图 <span id="sizeText"></span></summary>
+        <div class="capture-preview">
+          <img id="previewImage" alt="框选截图" draggable="false" />
+        </div>
+      </details>
+
+      <aside id="warningNotice" class="warning-notice" hidden>
+        <span>可能存在信息遗漏，可使用 AI 精译复核</span>
+        <button id="warningReasonButton" type="button" aria-expanded="false">查看原因</button>
+        <span id="warningReason" class="warning-reason" hidden></span>
+      </aside>
+
+      <section class="translation-layout">
+        <section class="source-pane">
+          <header><span>原文</span><small>可编辑</small></header>
+          <textarea id="ocrText" spellcheck="false" aria-label="OCR 原文" placeholder="识别结果将在这里显示"></textarea>
+        </section>
+
+        <section class="translation-pane">
+          <header><span>译文</span></header>
+          <article id="translatedText" tabindex="0" aria-label="中文译文" aria-live="polite">等待译文</article>
+        </section>
+
+        <div id="emptyState" class="empty-state" hidden>
+          <span id="emptyMessage">未识别到文字</span>
+          <button id="emptyReselectButton" type="button">重新框选</button>
+        </div>
+      </section>
+
+      <footer class="action-bar">
+        <button id="reselectButton" class="secondary" type="button">重新框选</button>
+        <div class="translation-actions">
+          <button id="retranslateButton" class="secondary" type="button" hidden>重新翻译</button>
+          <button id="aiTranslateButton" class="primary" type="button">AI 精译</button>
+        </div>
+      </footer>
+    </main>
+    <script src="./renderer.js"></script>
+  </body>
+</html>

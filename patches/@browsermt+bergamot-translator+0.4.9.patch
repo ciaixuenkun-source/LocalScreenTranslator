@@ -1,0 +1,47 @@
+diff --git a/node_modules/@browsermt/bergamot-translator/worker/translator-worker.js b/node_modules/@browsermt/bergamot-translator/worker/translator-worker.js
+index 24ff29a..45fa1f9 100644
+--- a/node_modules/@browsermt/bergamot-translator/worker/translator-worker.js
++++ b/node_modules/@browsermt/bergamot-translator/worker/translator-worker.js
+@@ -2,6 +2,15 @@
+  * Wrapper around the dirty bits of Bergamot's WASM bindings.
+  */
+ 
++import {readFileSync} from 'node:fs';
++import {readFile} from 'node:fs/promises';
++import {dirname, join} from 'node:path';
++import {parentPort} from 'node:worker_threads';
++import {fileURLToPath} from 'node:url';
++
++const __filename = fileURLToPath(import.meta.url);
++const __dirname = dirname(__filename);
++
+ // Global because importScripts is global.
+ var Module = {};
+ 
+@@ -17,7 +26,6 @@ if (typeof self === 'undefined') {
+         #port;
+ 
+         constructor() {
+-            const {parentPort} = require(/* webpackIgnore: true */ 'node:worker_threads');
+             this.#port = parentPort;
+         }
+ 
+@@ -42,8 +50,6 @@ if (typeof self === 'undefined') {
+          * @param {...string} scripts - Paths to scripts to import in that order
+          */
+         importScripts(...scripts) {
+-            const {readFileSync} = require(/* webpackIgnore: true */ 'node:fs');
+-            const {join} = require(/* webpackIgnore: true */ 'node:path');
+             for (let pathname of scripts) {
+                 const script = readFileSync(join(__dirname, pathname), {encoding: 'utf-8'});
+                 eval.call(global, script);
+@@ -59,8 +65,7 @@ if (typeof self === 'undefined') {
+          */
+         async fetch(url, options) {
+             if (url.protocol === 'file:') {
+-                const {readFile} = require(/* webpackIgnore: true */ 'node:fs/promises');
+-                const buffer = await readFile(url.pathname);
++                const buffer = await readFile(fileURLToPath(url));
+                 const blob = new Blob([buffer]);
+                 return new Response(blob, {
+                     status: 200,

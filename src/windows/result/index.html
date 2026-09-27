@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>翻译结果</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="result-card">
+      <header class="dragbar">
+        <div class="title">
+          <img src="../../renderer/assets/clover.svg" alt="" draggable="false" />
+          <span>翻译结果</span>
+        </div>
+        <div class="actions">
+          <button id="pinButton" type="button" aria-pressed="false" title="固定结果框">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m8 4 8 0-1.5 5 3 3H13v7l-2 2v-9H6.5l3-3z" />
+            </svg>
+            <span>固定</span>
+          </button>
+          <button id="closeButton" class="icon-button" type="button" aria-label="关闭" title="关闭">×</button>
+        </div>
+      </header>
+      <article id="translatedText" class="translated-text"></article>
+    </main>
+    <script src="./renderer.js"></script>
+  </body>
+</html>

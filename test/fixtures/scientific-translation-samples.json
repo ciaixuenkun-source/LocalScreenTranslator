@@ -1,0 +1,112 @@
+[
+  {
+    "id": "adsorption-capacity",
+    "category": "adsorption",
+    "text": "The adsorption capacity of bentonite for NH4+ reached 42.6 mg/g at pH 7, indicating that ion exchange was the dominant removal mechanism."
+  },
+  {
+    "id": "surface-functional-groups",
+    "category": "materials",
+    "text": "Oxygen-containing surface functional groups increased the affinity of the biochar for dissolved metal ions."
+  },
+  {
+    "id": "nucleation-gypsum",
+    "category": "gypsum",
+    "text": "Heterogeneous nucleation on the mineral surface accelerated the formation of CaSO4·2H2O crystals."
+  },
+  {
+    "id": "competitive-adsorption",
+    "category": "long-sentence",
+    "text": "Although the initial adsorption rate decreased in the presence of competing ions, the equilibrium capacity remained high because the porous matrix provided additional binding sites that were accessible after intraparticle diffusion."
+  },
+  {
+    "id": "carbonate-silica",
+    "category": "chemistry",
+    "text": "The composite contained CaCO3 and SiO2, while XRD analysis showed no detectable crystalline impurities."
+  },
+  {
+    "id": "peroxide-treatment",
+    "category": "chemistry",
+    "text": "Treatment with H2O2 increased the number of acidic sites without substantially changing the BET surface area."
+  },
+  {
+    "id": "spectroscopy",
+    "category": "characterization",
+    "text": "FTIR and XPS results confirmed that carboxyl and hydroxyl groups participated in the adsorption process."
+  },
+  {
+    "id": "microscopy",
+    "category": "characterization",
+    "text": "SEM images revealed an irregular pore structure, whereas BET measurements indicated a specific surface area of 186 m2/g."
+  },
+  {
+    "id": "ammonia-removal",
+    "category": "environment",
+    "text": "The removal of NH3 increased with contact time but decreased when the solution pH exceeded 9."
+  },
+  {
+    "id": "unit-middle-dot",
+    "category": "units",
+    "text": "The maximum uptake was 31.8 mg·g−1 at 298 K, and the fitted Langmuir constant was 0.42 L/mg."
+  },
+  {
+    "id": "microbial-remediation",
+    "category": "environment",
+    "text": "Clay-mediated microbial remediation improved contaminant removal by maintaining cell viability under acidic conditions."
+  },
+  {
+    "id": "bentonite-modification",
+    "category": "materials",
+    "text": "After thermal modification, bentonite exhibited faster adsorption kinetics but a slightly lower cation exchange capacity."
+  },
+  {
+    "id": "nested-clause",
+    "category": "long-sentence",
+    "text": "The results demonstrate that, although increasing ionic strength compressed the electrical double layer and reduced the initial attraction between the adsorbent and the solute, the final removal efficiency was preserved because complexation at high-affinity sites became the rate-controlling pathway."
+  },
+  {
+    "id": "kinetic-models",
+    "category": "adsorption",
+    "text": "The pseudo-second-order model described the kinetic data better than the pseudo-first-order model, suggesting that chemisorption contributed to the overall rate."
+  },
+  {
+    "id": "isotherm-comparison",
+    "category": "adsorption",
+    "text": "The Freundlich isotherm provided a better fit than the Langmuir isotherm, which is consistent with adsorption on a heterogeneous surface."
+  },
+  {
+    "id": "mixed-language",
+    "category": "mixed",
+    "text": "样品A showed a higher BET surface area, but its adsorption capacity for NH4+ was lower than that of 样品B."
+  },
+  {
+    "id": "abbreviation-sequence",
+    "category": "characterization",
+    "text": "XRD, XPS, FTIR, and SEM were used to characterize the phase composition, surface chemistry, functional groups, and morphology, respectively."
+  },
+  {
+    "id": "multi-sentence-abstract",
+    "category": "abstract",
+    "text": "A porous adsorbent was prepared from waste gypsum by a low-temperature route. Its structure was characterized by XRD and SEM. Batch experiments showed rapid uptake during the first 20 min, followed by a slower approach to equilibrium."
+  },
+  {
+    "id": "semicolon-splitting",
+    "category": "long-sentence",
+    "text": "Adsorption increased as the dosage rose from 0.1 to 0.5 g/L; however, the capacity expressed in mg/g decreased because a larger fraction of active sites remained unsaturated."
+  },
+  {
+    "id": "formula-integrity",
+    "category": "chemistry",
+    "text": "CaCO3, CaSO4·2H2O, NH3, NH4+, H2O2, BET, XRD, XPS, FTIR, SEM, mg/g, mg·g−1, and pH must remain unchanged in this validation sentence."
+  },
+  {
+    "id": "do-not-correct-ocr",
+    "category": "integrity",
+    "text": "The OCR source contains CaC03 and this exact input must not be silently corrected to CaCO3."
+  },
+  {
+    "id": "paragraph-preservation",
+    "category": "abstract",
+    "text": "Mineral dissolution released calcium ions into the solution. The supersaturation increased gradually until nucleation began.\n\nThe second experiment used the same temperature but a lower initial pH."
+  }
+]

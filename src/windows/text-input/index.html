@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文本翻译</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="window-shell">
+      <header class="compact-bar">
+        <div class="drag-region" aria-hidden="true"></div>
+        <div class="window-actions">
+          <button
+            id="pinButton"
+            class="pin-button"
+            type="button"
+            aria-label="固定窗口"
+            aria-pressed="false"
+            title="固定窗口"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m8 4 8 0-1.5 5 3 3H13v7l-2 2v-9H6.5l3-3z" />
+            </svg>
+          </button>
+          <button id="close" class="close-button" type="button" aria-label="关闭" title="关闭">×</button>
+        </div>
+      </header>
+
+      <section id="translationWorkspace" class="translation-workspace">
+        <div id="sourcePane" class="source-pane">
+          <span class="pane-label">原文</span>
+          <textarea
+            id="sourceText"
+            aria-label="原文"
+            placeholder="剪贴板中没有文字"
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        <div
+          id="splitter"
+          class="splitter"
+          role="separator"
+          aria-label="调整原文区域高度"
+          aria-orientation="horizontal"
+          tabindex="0"
+        >
+          <span></span>
+        </div>
+
+        <article
+          id="translatedText"
+          class="translated-text waiting"
+          aria-label="译文"
+          aria-live="polite"
+          tabindex="0"
+        >等待译文</article>
+      </section>
+
+      <footer class="statusbar">
+        <span id="statusText" class="status-text" aria-live="polite">等待翻译</span>
+        <div class="status-actions">
+          <button id="retryButton" class="retry-button" type="button" hidden>重新翻译</button>
+          <select id="translationMode" class="mode-select" aria-label="翻译模式" title="选择翻译模式">
+            <option value="free">免费翻译</option>
+            <option value="ai-precise">AI 精译</option>
+          </select>
+        </div>
+      </footer>
+    </main>
+    <script src="./renderer.js"></script>
+  </body>
+</html>
