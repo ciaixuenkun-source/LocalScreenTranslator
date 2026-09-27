@@ -23,21 +23,28 @@ Translator 不是自研大语言模型。本项目使用现有开源模型和第
 
 ## 界面预览
 
-悬浮球与展开菜单：快速进入区域翻译、文本翻译和设置。
-
-![悬浮球与展开菜单](docs/screenshots/floating-ball.png)
-
-文本翻译：复制文字后直接查看本地或在线 AI 译文。
-
-![文本翻译](docs/screenshots/text-translation.png)
-
-区域翻译：框选屏幕内容后查看 OCR 原文和中文译文。
-
-![区域翻译](docs/screenshots/region-translation.png)
-
-设置页面：管理快捷键、本地翻译偏好和在线 AI 配置。
-
-![设置页面](docs/screenshots/settings.png)
+<table>
+  <tr>
+    <td align="center" valign="top" width="50%">
+      <img src="docs/screenshots/floating-ball.png" alt="悬浮球与展开菜单" width="180"><br>
+      <sub>悬浮球与展开菜单：快速进入区域翻译、文本翻译和设置。</sub>
+    </td>
+    <td align="center" valign="top" width="50%">
+      <img src="docs/screenshots/text-translation.png" alt="文本翻译" width="380"><br>
+      <sub>文本翻译：复制文字后直接查看本地或在线 AI 译文。</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" width="50%">
+      <img src="docs/screenshots/region-translation.png" alt="区域翻译" width="380"><br>
+      <sub>区域翻译：框选屏幕内容后查看 OCR 原文和中文译文。</sub>
+    </td>
+    <td align="center" valign="top" width="50%">
+      <img src="docs/screenshots/settings.png" alt="设置页面" width="380"><br>
+      <sub>设置页面：管理快捷键、本地翻译偏好和在线 AI 配置。</sub>
+    </td>
+  </tr>
+</table>
 
 ## 使用方式
 
