@@ -27,18 +27,14 @@ const FRIENDLY_ERRORS = {
   "local-request-failed": "本地翻译暂时失败"
 };
 
-function readClipboardTextOnce() {
-  const formats = clipboard.availableFormats();
-  const hasPlainText = formats.some(
-    (format) =>
-      format === "text/plain" ||
-      format === "text/unicode" ||
-      format.startsWith("text/plain;")
-  );
-  if (!hasPlainText) return "";
-
-  const text = clipboard.readText();
-  return text.trim() ? text : "";
+async function readClipboardTextOnce(clipboardApi = clipboard) {
+  try {
+    const text = await clipboardApi.readText();
+    return typeof text === "string" && text.trim() ? text : "";
+  } catch (error) {
+    console.warn("[text-translation] unable to read clipboard text", error);
+    return "";
+  }
 }
 
 class TranslationWindowController {
@@ -250,8 +246,10 @@ class TranslationWindowController {
     }, 120);
   }
 
-  refreshClipboard(window) {
-    this.clipboardSnapshot = readClipboardTextOnce();
+  async refreshClipboard(window) {
+    const text = await readClipboardTextOnce();
+    if (this.textWindow !== window || window.isDestroyed()) return;
+    this.clipboardSnapshot = text;
     if (!window.webContents.isLoadingMainFrame()) {
       window.webContents.send(
         "text-translation-clipboard",
@@ -260,15 +258,16 @@ class TranslationWindowController {
     }
   }
 
-  openTextInput() {
+  async openTextInput() {
     if (this.textWindow?.isDestroyed()) this.textWindow = null;
     if (this.textWindow) {
-      this.refreshClipboard(this.textWindow);
-      this.presentTextWindow(this.textWindow);
+      const window = this.textWindow;
+      this.presentTextWindow(window);
+      await this.refreshClipboard(window);
       return;
     }
 
-    this.clipboardSnapshot = readClipboardTextOnce();
+    this.clipboardSnapshot = "";
     const window = new BrowserWindow({
       width: 680,
       height: 560,
@@ -369,6 +368,8 @@ class TranslationWindowController {
       this.textWindowState = null;
       this.clipboardSnapshot = "";
     });
+
+    await this.refreshClipboard(window);
   }
 
   closeAll() {
@@ -382,4 +383,4 @@ class TranslationWindowController {
   }
 }
 
-module.exports = { TranslationWindowController };
+module.exports = { readClipboardTextOnce, TranslationWindowController };

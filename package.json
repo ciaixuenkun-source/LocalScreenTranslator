@@ -14,7 +14,7 @@
     "test": "node --test test/**/*.test.js"
   },
   "devDependencies": {
-    "electron": "^33.4.11"
+    "electron": "44.4.5"
   },
   "dependencies": {
     "@tesseract.js-data/chi_sim": "^1.0.0",

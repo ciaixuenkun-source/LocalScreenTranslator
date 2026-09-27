@@ -93,11 +93,13 @@ Translator 仓库不包含 llama.cpp 源码或二进制文件。程序从用户�
 
 LocalScreenTranslator 面向 **Windows 10/11**。当前版本主要在 Windows 10 上开发和测试，尚未声明其他操作系统支持。
 
-运行源码需要：
+从源码安装或开发需要：
 
-- Node.js `>= 20.9.0`
+- Node.js `>= 22.12.0`
 - npm
 - Git（使用 ZIP 下载时不需要）
+
+未来安装好的 Windows 可执行程序会自带 Electron 运行环境，不需要用户另外安装 Node.js。
 
 ### 1. 获取项目
 
@@ -124,7 +126,7 @@ npm install
 npm run setup
 ```
 
-当前 `npm run setup` 只会在该 PowerShell 进程中设置 Electron 下载镜像，然后执行 `npm install`。它不会下载 Qwen GGUF、不会下载或安装 llama.cpp，也不会自动配置模型和 runtime 路径。
+当前 `npm run setup` 会在同一个 PowerShell 进程中临时设置 Electron 下载镜像、执行 `npm install` 安装 npm 依赖，并通过 Electron 官方提供的 `install-electron` 命令显式准备 Electron 二进制。它不会下载 Qwen GGUF、不会下载或安装 llama.cpp，也不会自动配置模型和 runtime 路径。
 
 项目当前的 `.npmrc` 使用 `https://registry.npmmirror.com/`。如果该镜像在你的网络环境中不可访问，可以在当前项目目录切换为 npm 官方 registry，再安装依赖：
 
@@ -234,12 +236,12 @@ Translator 管理的本地 llama-server 当前监听 `127.0.0.1:18473`。如果�
 
 ### `npm install` 失败
 
-- 确认 Node.js 版本不低于 `20.9.0`，并确认 `node --version` 与 `npm --version` 可以正常执行。
+- 确认源码安装使用的 Node.js 版本不低于 `22.12.0`，并确认 `node --version` 与 `npm --version` 可以正常执行。
 - 当前项目默认使用 npmmirror。如果该镜像不可访问，按上面的 npm 官方 registry 命令切换后重新运行 `npm install`。
 
 ### Electron 下载失败
 
-- `npm run setup` 会临时使用项目设置的 Electron 下载镜像。如果该镜像不可访问，可以尝试直接运行 `npm install`。
+- `npm run setup` 会在同一个 PowerShell 进程中临时使用项目设置的 Electron 下载镜像，安装 npm 依赖并显式准备 Electron 二进制。如果该镜像不可访问，可以尝试直接运行 `npm install`，然后在能够访问 Electron 下载来源的网络环境中执行 `npx install-electron`。
 - Electron 二进制仍然需要可访问的下载来源；请检查当前网络或代理是否能够访问 Electron 所需的下载地址。
 
 ### 提示“本地翻译尚未配置”
