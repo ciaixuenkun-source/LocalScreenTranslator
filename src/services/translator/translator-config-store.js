@@ -10,7 +10,7 @@ const DEFAULT_TRANSLATOR_CONFIG = Object.freeze({
   mode: FREE_MODE,
   preferFree: true,
   provider: "openai-compatible",
-  baseUrl: "https://api.openai.com/v1",
+  baseUrl: "",
   model: "",
   timeoutMs: 30000
 });

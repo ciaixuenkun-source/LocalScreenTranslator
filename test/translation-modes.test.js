@@ -7,6 +7,9 @@ const {
   preferredModeFromConfig,
   resolveTranslationMode
 } = require("../src/services/translator/translation-modes");
+const {
+  DEFAULT_TRANSLATOR_CONFIG
+} = require("../src/services/translator/translator-config-store");
 
 test("keeps legacy configured API installations in AI precise mode", () => {
   assert.equal(
@@ -20,11 +23,18 @@ test("keeps legacy configured API installations in AI precise mode", () => {
 });
 
 test("prefers free translation by default without changing saved AI credentials", () => {
-  assert.equal(preferredModeFromConfig({ model: "deepseek-chat" }), FREE_MODE);
+  assert.equal(preferredModeFromConfig({ model: "example-model" }), FREE_MODE);
   assert.equal(
-    preferredModeFromConfig({ preferFree: false, model: "deepseek-chat" }),
+    preferredModeFromConfig({ preferFree: false, model: "example-model" }),
     AI_PRECISE_MODE
   );
+});
+
+test("keeps fresh online AI settings provider-neutral", () => {
+  assert.equal(DEFAULT_TRANSLATOR_CONFIG.provider, "openai-compatible");
+  assert.equal(DEFAULT_TRANSLATOR_CONFIG.baseUrl, "");
+  assert.equal(DEFAULT_TRANSLATOR_CONFIG.model, "");
+  assert.equal(DEFAULT_TRANSLATOR_CONFIG.preferFree, true);
 });
 
 test("uses the local free mode as the default for fresh installations", () => {

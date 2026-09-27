@@ -102,7 +102,7 @@ class TranslatorSettingsService {
       preferFree: config.preferFree,
       modes: TRANSLATION_MODES,
       provider: config.provider,
-      providerLabel: "OpenAI Compatible / DeepSeek",
+      providerLabel: "OpenAI Compatible",
       baseUrl: config.baseUrl,
       model: config.model,
       hasApiKey: this.credentialStore.has(API_KEY_CREDENTIAL)

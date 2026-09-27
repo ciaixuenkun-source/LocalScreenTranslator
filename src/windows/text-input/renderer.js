@@ -154,7 +154,7 @@ translationMode.addEventListener("change", () => {
   selectedMode = nextMode;
   translationMode.title = selectedMode === "free"
     ? "免费翻译：本地 / 免费"
-    : "AI 精译：DeepSeek API / 可能产生费用";
+    : "AI 精译：在线 AI / 可能产生费用";
   translateSource({ replaceActive: true });
 });
 
@@ -223,6 +223,6 @@ window.textTranslation.getBootstrap().then((bootstrap) => {
   translationMode.value = selectedMode;
   translationMode.title = selectedMode === "free"
     ? "免费翻译：本地 / 免费"
-    : "AI 精译：DeepSeek API / 可能产生费用";
+    : "AI 精译：在线 AI / 可能产生费用";
   applyClipboardAndTranslate(bootstrap?.clipboardText || "");
 });

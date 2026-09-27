@@ -12,7 +12,7 @@ const TRANSLATION_MODES = Object.freeze([
   Object.freeze({
     id: AI_PRECISE_MODE,
     label: "AI 精译",
-    description: "DeepSeek API / 可能产生费用",
+    description: "在线 AI / 可能产生费用",
     available: true,
     provider: "openai-compatible"
   })
