@@ -66,11 +66,28 @@ Translator 仓库不包含 llama.cpp 源码或二进制文件。程序从用户�
 
 ## 安装与运行
 
-当前版本主要在 **Windows 10** 上开发和测试，尚未声明其他操作系统支持。
+LocalScreenTranslator 面向 **Windows 10/11**。当前版本主要在 Windows 10 上开发和测试，尚未声明其他操作系统支持。
 
-### 1. 准备 Node.js 和 npm
+运行源码需要：
 
-安装可用的 Node.js/npm 环境，然后在项目目录安装依赖：
+- Node.js `>= 20.9.0`
+- npm
+- Git（使用 ZIP 下载时不需要）
+
+### 1. 获取项目
+
+使用 Git：
+
+```powershell
+git clone https://github.com/ciaixuenkun-source/LocalScreenTranslator.git
+cd LocalScreenTranslator
+```
+
+不会使用 Git 的用户，可以在 GitHub 项目页面选择 **Code → Download ZIP**，下载后解压并在该目录打开 PowerShell。
+
+### 2. 安装项目依赖
+
+在项目目录运行：
 
 ```powershell
 npm install
@@ -84,29 +101,49 @@ npm run setup
 
 当前 `npm run setup` 只会在该 PowerShell 进程中设置 Electron 下载镜像，然后执行 `npm install`。它不会下载 Qwen GGUF、不会下载或安装 llama.cpp，也不会自动配置模型和 runtime 路径。
 
-### 2. 准备本地 Qwen 模型
+项目当前的 `.npmrc` 使用 `https://registry.npmmirror.com/`。如果该镜像在你的网络环境中不可访问，可以在当前项目目录切换为 npm 官方 registry，再安装依赖：
 
-自行下载以下 GGUF 文件，并保存到项目目录之外的本地模型目录：
+```powershell
+npm config set registry https://registry.npmjs.org/ --location=project
+npm install
+```
+
+`--location=project` 只修改当前项目配置，不会修改用户全局 npm registry。切换到官方 registry 时请直接使用 `npm install`；不要使用会临时指定 Electron 镜像的 `npm run setup`。
+
+### 3. 准备本地 Qwen 模型
+
+本地翻译使用 Unsloth 发布的 [`unsloth/Qwen3-4B-Instruct-2507-GGUF`](https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF)。只需从文件列表下载以下一个文件，不需要下载整个模型仓库：
 
 ```text
 Qwen3-4B-Instruct-2507-Q4_K_M.gguf
 ```
 
-模型文件不包含在本仓库中。
+可以直接打开该文件的 [Hugging Face 页面](https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/blob/main/Qwen3-4B-Instruct-2507-Q4_K_M.gguf) 下载。模型文件不包含在本仓库中，请保存到项目目录之外由你自行选择的目录。
 
-### 3. 准备 llama.cpp runtime
+### 4. 准备 llama.cpp runtime
 
-自行准备与 Windows 和本机硬件兼容的 llama.cpp runtime，确保运行目录中包含：
+从 [`ggml-org/llama.cpp` Releases](https://github.com/ggml-org/llama.cpp/releases) 获取官方 Windows 预编译版本即可，不要求自行编译。请根据自己的硬件选择 CPU、Vulkan、CUDA 等合适版本。
+
+解压后，runtime 目录中必须存在：
 
 ```text
 llama-server.exe
 ```
 
-llama.cpp 二进制不包含在本仓库中，也不会由 Translator 设置为开机启动服务。
+不要只单独复制 `llama-server.exe`，应完整保留该发行包运行所需的配套 DLL。CUDA 版本可能还需要同一 Release 提供的配套 CUDA DLL 包，具体以对应 llama.cpp Release 的说明为准。
 
-### 4. 配置本地路径
+开发验证环境为 **llama.cpp b11146 / CUDA 12.4**。这只是当前开发和测试使用的版本，不要求所有用户必须采用完全相同的构建；但不同版本的命令行参数可能存在差异。
 
-启动前可通过环境变量指定外置 runtime 和模型目录：
+llama.cpp 二进制不包含在本仓库中，也不会被 Translator 设置为开机启动服务。
+
+### 5. 配置本地路径
+
+Translator 通过以下两个环境变量查找外置 runtime 和模型：
+
+- `TRANSLATOR_LLAMA_RUNTIME_DIR`：包含 `llama-server.exe` 及配套 DLL 的目录。
+- `TRANSLATOR_QWEN_MODEL_DIR`：包含 `Qwen3-4B-Instruct-2507-Q4_K_M.gguf` 的目录。
+
+临时设置方法如下：
 
 ```powershell
 $env:TRANSLATOR_LLAMA_RUNTIME_DIR = "<llama.cpp runtime 目录>"
@@ -114,26 +151,91 @@ $env:TRANSLATOR_QWEN_MODEL_DIR = "<Qwen GGUF 所在目录>"
 npm start
 ```
 
-- `TRANSLATOR_LLAMA_RUNTIME_DIR` 指向包含 `llama-server.exe` 的目录。
-- `TRANSLATOR_QWEN_MODEL_DIR` 指向包含上述 GGUF 文件的目录。
-
 路径可以按用户自己的磁盘布局设置，不要求使用开发者电脑上的目录。环境变量需要在启动 Electron 进程前设置。
 
 以上 `$env:` 设置仅对当前 PowerShell 会话有效。关闭该终端后需要重新设置；如需长期使用，可在 Windows 中配置持久环境变量。
 
-### 5. 启动 Translator
+普通 Windows 用户可以这样持久设置：
+
+1. 打开 **系统属性 → 高级 → 环境变量**。
+2. 在“用户变量”区域选择“新建”。
+3. 分别新建 `TRANSLATOR_LLAMA_RUNTIME_DIR` 和 `TRANSLATOR_QWEN_MODEL_DIR`。
+4. 值分别填写你自己的 runtime 目录和模型目录。
+5. 保存后重新打开 PowerShell，或重新启动 Translator，使新环境变量生效。
+
+如果没有配置这两个变量，Translator 不会猜测开发者电脑路径，也不会自动切换到在线 AI。首次使用本地翻译时会提示配置环境变量。
+
+### 6. 启动 Translator
 
 ```powershell
 npm start
 ```
 
-项目根目录的 `启动Translator.bat` 可作为依赖安装后的 Windows 备用启动入口。快捷方式和开始菜单入口可通过项目内的维护脚本创建。
+项目根目录的 `启动Translator.bat` 可作为依赖安装后的 Windows 备用启动入口。它使用当前项目目录，但不会替你配置模型或 runtime 环境变量。
 
-### 6. 配置 AI 精译（可选）
+创建桌面快捷方式：
 
-可配置的 OpenAI-compatible API 仅用于用户主动选择的“AI 精译”。API Base URL、模型和 API Key 可在 Translator 设置页配置。
+```powershell
+npm run shortcut:desktop
+```
+
+创建当前用户的开始菜单快捷方式：
+
+```powershell
+npm run shortcut:start-menu
+```
+
+如果通过 BAT、桌面快捷方式或开始菜单启动，请先使用 Windows 用户环境变量持久保存上述两个路径。
+
+Translator 管理的本地 llama-server 当前监听 `127.0.0.1:18473`。如果该端口已被其他程序占用，本地模型服务可能无法启动。
+
+### 7. 配置 AI 精译（可选）
+
+在线 AI 完全可选。不配置在线 API 不影响本地 Qwen 翻译、本地 OCR 或区域翻译。
+
+可配置的 OpenAI-compatible API 仅用于用户主动选择的“AI 精译”，不绑定具体服务商。以下内容可在 Translator 设置页填写：
+
+- API Base URL
+- API Key
+- Model
 
 本地 Qwen 翻译不需要在线服务 API Key。在线 AI 的 API Key 使用 Electron `safeStorage` 保存在本机，不应写入源码或提交到 GitHub。
+
+### 8. OCR 数据
+
+英文 `eng` 和简体中文 `chi_sim` OCR 数据已经由 npm 依赖提供。完成 `npm install` 后，用户不需要另外手工下载 OCR 模型；程序会在第一次使用 OCR 时将语言数据复制到本机用户数据目录并从本地加载。
+
+## 安装故障排查
+
+### `npm install` 失败
+
+- 确认 Node.js 版本不低于 `20.9.0`，并确认 `node --version` 与 `npm --version` 可以正常执行。
+- 当前项目默认使用 npmmirror。如果该镜像不可访问，按上面的 npm 官方 registry 命令切换后重新运行 `npm install`。
+
+### Electron 下载失败
+
+- `npm run setup` 会临时使用项目设置的 Electron 下载镜像。如果该镜像不可访问，可以尝试直接运行 `npm install`。
+- Electron 二进制仍然需要可访问的下载来源；请检查当前网络或代理是否能够访问 Electron 所需的下载地址。
+
+### 提示“本地翻译尚未配置”
+
+- 检查是否同时设置了 `TRANSLATOR_LLAMA_RUNTIME_DIR` 和 `TRANSLATOR_QWEN_MODEL_DIR`。
+- 如果刚通过 Windows 环境变量界面添加，请关闭并重新打开 PowerShell，或重启 Translator。
+
+### 提示找不到 `llama-server.exe`
+
+- 检查 `TRANSLATOR_LLAMA_RUNTIME_DIR` 是否直接指向包含 `llama-server.exe` 的目录。
+- 确认完整解压了发行包，并保留所需配套 DLL。
+
+### 提示找不到 Qwen GGUF
+
+- 检查 `TRANSLATOR_QWEN_MODEL_DIR` 是否直接指向模型所在目录。
+- 确认文件名为 `Qwen3-4B-Instruct-2507-Q4_K_M.gguf`，而不是其他量化版本或仍在压缩包内的文件。
+
+### 本地模型服务无法启动
+
+- 检查 `127.0.0.1:18473` 是否被其他程序占用。
+- 检查下载的 llama.cpp 版本是否适合当前 Windows 和硬件，并确认配套 DLL 完整。
 
 ## 测试
 
@@ -143,7 +245,7 @@ npm start
 npm test
 ```
 
-当前正式版本为 **66/66** 项自动测试通过。
+当前正式版本为 **70/70** 项自动测试通过。
 
 ## 已知限制
 
