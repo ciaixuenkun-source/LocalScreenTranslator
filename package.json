@@ -33,6 +33,15 @@
       "output": "dist"
     },
     "electronDist": "node_modules/electron/dist",
+    "extraResources": [
+      {
+        "from": "build/legal",
+        "to": "legal",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
     "files": [
       "src/**/*",
       "!src/renderer/assets/floating-bomb.svg",

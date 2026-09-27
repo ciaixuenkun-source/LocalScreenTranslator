@@ -34,6 +34,10 @@ coverage/
 dist/
 out/
 build/
+!build/
+build/*
+!build/legal/
+!build/legal/**
 release/
 
 # Local environment and credentials
